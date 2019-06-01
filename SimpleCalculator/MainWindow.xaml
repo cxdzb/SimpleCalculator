@@ -1,0 +1,62 @@
+﻿<Window x:Class="SimpleCalculator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SimpleCalculator"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="515" Width="335">
+    <!--AllowsTransparency="true" WindowStyle="None" Background="#CCFFFFFF"-->
+    <Grid>
+        <Viewbox Stretch="Fill">
+            <Canvas Width="328.8" Height="485.6">
+                <Grid HorizontalAlignment="Left" Height="174" VerticalAlignment="Top" Width="309" Canvas.Left="10" Canvas.Top="10">
+                    <Button x:Name="history" Content="历史" HorizontalAlignment="Left" Margin="268,0,0,0" VerticalAlignment="Top" Width="41" Height="27"/>
+                    <TextBox x:Name="input" Text="" HorizontalAlignment="Left" Background="#F4DFE5E5" Height="53" Margin="0,121,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="309" TextAlignment="Right" FontSize="26"/>
+                    <TextBox x:Name="formula" Text="" HorizontalAlignment="Left" Background="#F4DFE5E5" Height="84" Margin="0,32,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="309" TextAlignment="Right" FontSize="18"/>
+                </Grid>
+                <Grid HorizontalAlignment="Left" Height="297" VerticalAlignment="Top" Width="309" Canvas.Left="10" Canvas.Top="189">
+                    <Button x:Name="button_sin" Content="sin" HorizontalAlignment="Left" Margin="0,42,0,0" VerticalAlignment="Top" Width="29" Height="40" Click="Button_sin_Click"/>
+                    <Button x:Name="button_cos" Content="cos" HorizontalAlignment="Left" Margin="62,42,0,0" VerticalAlignment="Top" Width="29" Height="40" Click="Button_cos_Click"/>
+                    <Button x:Name="button_tan" Content="tan" HorizontalAlignment="Left" Margin="125,42,0,0" VerticalAlignment="Top" Width="29" Height="40" Click="Button_tan_Click"/>
+                    <Button x:Name="button_SquareRoot" Content="√" HorizontalAlignment="Left" VerticalAlignment="Top" Width="59" Height="40" Margin="0,83,0,0" Click="Button_SquareRoot_Click"/>
+                    <Button x:Name="button_log" Content="log" HorizontalAlignment="Left" Margin="187,42,0,0" VerticalAlignment="Top" Width="29" Height="40" Click="Button_log_Click"/>
+                    <Button x:Name="button_mod" Content="%" HorizontalAlignment="Left" Margin="250,42,0,0" VerticalAlignment="Top" Width="59" Height="40" Click="Button_mod_Click"/>
+                    <Button x:Name="button_CE" Content="CE" HorizontalAlignment="Left" Margin="62,83,0,0" VerticalAlignment="Top" Width="29" Height="40" Click="Button_CE_Click"/>
+                    <Button x:Name="button_C" Content="C" HorizontalAlignment="Left" Margin="92,83,0,0" VerticalAlignment="Top" Width="29" Height="40" Click="Button_C_Click"/>
+                    <Button x:Name="button_del" Content="Del" HorizontalAlignment="Left" Margin="125,83,0,0" VerticalAlignment="Top" Width="59" Height="40" Click="Button_del_Click"/>
+                    <Button x:Name="button_div" Content="÷" HorizontalAlignment="Left" Margin="250,83.2,0,0" VerticalAlignment="Top" Width="59" Height="40" Click="Button_div_Click"/>
+                    <Button x:Name="button_pi" Content="π" HorizontalAlignment="Left" VerticalAlignment="Top" Width="29" Height="40" Margin="0,124.8,0,0" Click="Button_pi_Click"/>
+                    <Button x:Name="button_7" Content="7" HorizontalAlignment="Left" Margin="62,124.8,0,0" VerticalAlignment="Top" Width="59" Height="40" Background="White" Click="Button_7_Click"/>
+                    <Button x:Name="button_8" Content="8" HorizontalAlignment="Left" Margin="125,124.8,0,0" VerticalAlignment="Top" Width="59" Height="40" Background="White" Click="Button_8_Click"/>
+                    <Button x:Name="button_9" Content="9" HorizontalAlignment="Left" Margin="187,124.8,0,0" VerticalAlignment="Top" Width="59" Height="40" Background="White" Click="Button_9_Click"/>
+                    <Button x:Name="button_mul" Content="×" HorizontalAlignment="Left" Margin="250,124.8,0,0" VerticalAlignment="Top" Width="59" Height="40" Click="Button_mul_Click"/>
+                    <Button x:Name="button_factorial" Content="n!" HorizontalAlignment="Left" VerticalAlignment="Top" Width="59" Height="40" Margin="0,166.4,0,0" Click="Button_factorial_Click"/>
+                    <Button x:Name="button_4" Content="4" HorizontalAlignment="Left" Margin="62,166.4,0,0" VerticalAlignment="Top" Width="59" Height="40" Background="White" Click="Button_4_Click"/>
+                    <Button x:Name="button_5" Content="5" HorizontalAlignment="Left" Margin="125,166.4,0,0" VerticalAlignment="Top" Width="59" Height="40" Background="White" Click="Button_5_Click"/>
+                    <Button x:Name="button_6" Content="6" HorizontalAlignment="Left" Margin="187,166.4,0,0" VerticalAlignment="Top" Width="59" Height="40" Background="White" Click="Button_6_Click"/>
+                    <Button x:Name="button_sub" Content="-" HorizontalAlignment="Left" Margin="250,166.4,0,0" VerticalAlignment="Top" Width="59" Height="40" Click="Button_sub_Click"/>
+                    <Button x:Name="button_neg" Content="±" HorizontalAlignment="Left" VerticalAlignment="Top" Width="59" Height="40" Margin="0,208,0,0" Click="Button_neg_Click"/>
+                    <Button x:Name="button_1" Content="1" HorizontalAlignment="Left" Margin="62,208,0,0" VerticalAlignment="Top" Width="59" Height="40" Background="White" Click="Button_1_Click"/>
+                    <Button x:Name="button_2" Content="2" HorizontalAlignment="Left" Margin="125,208,0,0" VerticalAlignment="Top" Width="59" Height="40" Background="White" Click="Button_2_Click"/>
+                    <Button x:Name="button_3" Content="3" HorizontalAlignment="Left" Margin="187,208,0,0" VerticalAlignment="Top" Width="59" Height="40" Background="White" Click="Button_3_Click"/>
+                    <Button x:Name="button_add" Content="+" HorizontalAlignment="Left" Margin="250,208,0,0" VerticalAlignment="Top" Width="59" Height="40" Click="Button_add_Click"/>
+                    <Button x:Name="button_left" Content="(" HorizontalAlignment="Left" VerticalAlignment="Top" Width="59" Height="40" Margin="0,249.6,0,0" Click="Button_left_Click"/>
+                    <Button x:Name="button_right" Content=")" HorizontalAlignment="Left" Margin="62,249.6,0,0" VerticalAlignment="Top" Width="59" Height="40" Click="Button_right_Click"/>
+                    <Button x:Name="button_0" Content="0" HorizontalAlignment="Left" Margin="125,249.6,0,0" VerticalAlignment="Top" Width="59" Height="40" Background="White" Click="Button_0_Click"/>
+                    <Button x:Name="button_point" Content="." HorizontalAlignment="Left" Margin="187,249.6,0,0" VerticalAlignment="Top" Width="59" Height="40" Click="Button_point_Click"/>
+                    <Button x:Name="button_equal" Content="=" HorizontalAlignment="Left" Margin="250,249.6,0,0" VerticalAlignment="Top" Width="59" Height="40" Click="Button_equal_Click"/>
+                    <TextBox x:Name="time" Text="" HorizontalAlignment="Left" Height="37" TextWrapping="Wrap" VerticalAlignment="Top" Width="309" Background="White" FontSize="24" TextAlignment="Center"/>
+                    <Button x:Name="button_pow" Content="^" HorizontalAlignment="Left" Margin="187,83,0,0" VerticalAlignment="Top" Width="59" Height="40" Click="Button_pow_Click"/>
+                    <Button x:Name="button_sinh" Content="sin⁻¹" HorizontalAlignment="Left" Margin="30,42,0,0" VerticalAlignment="Top" Width="29" Height="40" Click="Button_arcsin_Click" FontSize="11"/>
+                    <Button x:Name="button_cosh" Content="cos⁻¹" HorizontalAlignment="Left" Margin="92,42,0,0" VerticalAlignment="Top" Width="29" Height="40" Click="Button_arccos_Click" FontSize="11"/>
+                    <Button x:Name="button_tanh" Content="tan⁻¹" HorizontalAlignment="Left" Margin="155,42,0,0" VerticalAlignment="Top" Width="29" Height="40" Click="Button_arctan_Click" FontSize="11"/>
+                    <Button x:Name="button_ln" Content="ln" HorizontalAlignment="Left" Margin="217,42,0,0" VerticalAlignment="Top" Width="29" Height="40" Click="Button_ln_Click"/>
+                    <Button x:Name="button_e" Content="e" HorizontalAlignment="Left" VerticalAlignment="Top" Width="29" Height="40" Margin="30,125,0,0" Click="Button_e_Click"/>
+                </Grid>
+            </Canvas>
+        </Viewbox>
+    </Grid>
+</Window>
+
+
