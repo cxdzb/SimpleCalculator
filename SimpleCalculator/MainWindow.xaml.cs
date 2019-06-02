@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -8,23 +10,24 @@ namespace SimpleCalculator
 {
     public partial class MainWindow : Window
     {
-        Infix infix = new Infix();
+        Infix infix = new Infix();  //新建中缀表达式和计算器
         Calculation calculation = new Calculation();
-        DispatcherTimer timer;
+        DispatcherTimer timer;  //设置时钟，用于刷新时间
+        Dictionary<string, double> Record = new Dictionary<string, double>();   //新建记录
         public MainWindow()
         {
             InitializeComponent();
 
-            timer = new DispatcherTimer();  //设定时钟，1秒调用一次Get_Data
+            timer = new DispatcherTimer();  //设定时钟，0.1秒调用一次Get_Time
             timer.Tick += new EventHandler(Get_Time);
             timer.Interval = TimeSpan.FromSeconds(0.1);
-            timer.Start();
+            timer.Start();  //开启时钟
 
             Binding binding1 = new Binding
             {
                 Source = infix,
                 Path = new PropertyPath("Formula")
-            };
+            };  //绑定数据，将三个输入框分别绑定计算式、输入和时间
             formula.SetBinding(TextBox.TextProperty, binding1);
             Binding binding2 = new Binding
             {
@@ -40,7 +43,7 @@ namespace SimpleCalculator
             time.SetBinding(TextBox.TextProperty, binding3);
         }
 
-        private void Get_Time(object sender, EventArgs e)
+        private void Get_Time(object sender, EventArgs e)   //获取时间
         {
             infix.Current = System.DateTime.Now.ToString("yyyy-MM-dd  HH:mm:ss");
         }
@@ -206,7 +209,8 @@ namespace SimpleCalculator
         }
         private void Button_del_Click(object sender, RoutedEventArgs e)
         {
-            infix.Input = infix.Input.Remove(infix.Input.Length - 1);
+            if(infix.Input.Length>0)
+                infix.Input = infix.Input.Remove(infix.Input.Length - 1);
         }
 
         private void Special_Operater(string op)
@@ -233,15 +237,38 @@ namespace SimpleCalculator
             infix.Input = "";
         }
         //求值
-        private void Button_equal_Click(object sender, RoutedEventArgs e)
+        private void Button_equal_Click(object sender, RoutedEventArgs ex)
         {
-            if (infix.Input == "")
-                infix.Input = calculation.Get_Result(infix.Formula);
-            else
-            {
-                infix.Formula += infix.Input;
-                infix.Input = calculation.Get_Result(infix.Formula);
-            }
+            if(!(infix.Formula=="" && infix.Input==""))
+                try
+                {
+                    if (infix.Input == ""|| Regex.Matches(infix.Formula.Substring(infix.Formula.Length-1), @"(\d|e|\)|π)").Count==1)
+                        infix.Input = calculation.Get_Result(infix.Formula);
+                    else
+                    {
+                        infix.Formula += infix.Input;
+                        infix.Input = calculation.Get_Result(infix.Formula);
+                    }
+                    if (1 - (double.Parse(infix.Input) % 1) <= 1e-10)   //控制精度
+                        infix.Input = ((int)(double.Parse(infix.Input) + 1)).ToString();
+                    else if(double.Parse(infix.Input) % 1 <= 1e-10)
+                        infix.Input = ((int)double.Parse(infix.Input)).ToString();
+
+                    if(!Record.ContainsKey(infix.Formula))  //添加到记录
+                        Record.Add(infix.Formula, double.Parse(infix.Input));
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+        }
+        //历史
+        private void Record_DropDown(object sender, EventArgs e)
+        {
+            ComboBox x = sender as ComboBox;
+            x.Items.Clear();
+            foreach (KeyValuePair<string,double> r in Record)  //添加端口
+                x.Items.Add(r.Key+"="+r.Value);
         }
     }
 }

@@ -36,6 +36,12 @@ namespace SimpleCalculator
             string pattern = @"[0-9]+|[0-9]+(.[0-9]{0,})|[()]|[+-]|[×÷]|[a-z⁻¹]+|\^|π";
             foreach (Match match in Regex.Matches(input, pattern))
                 infix.Add(match.Value);
+            for(int i=1;i<infix.Count-1;i++)    //找出负数
+                if(infix[i-1]=="("&&infix[i]=="-"&&(infix[i+1]=="e"|| infix[i + 1] == "π"||IsNumeric(infix[i + 1])))    //当出现(-1这种形式后，-和数字结合
+                {
+                    infix[i + 1] = infix[i] + infix[i + 1];
+                    infix.RemoveAt(i++);
+                }
             return infix;
         }
         public List<string> Infix_To_Postfix(List<string> infix)
@@ -44,7 +50,7 @@ namespace SimpleCalculator
             Stack<string> operators = new Stack<string>();
             for (int i = 0; i < infix.Count; i++)
             {
-                if (IsNumeric(infix[i]) || infix[i] == "π" || infix[i]=="e")
+                if (IsNumeric(infix[i]) || infix[i] == "π" || infix[i]=="e" || infix[i] == "-π" || infix[i] == "-e")
                 {//如果是数字，则直接加入后缀表达式
                     postfix.Add(infix[i]);
                 }
@@ -86,7 +92,7 @@ namespace SimpleCalculator
             for (int i = 0; i < postfix.Count; i++)
             {
                 if (IsNumeric(postfix[i]))
-                {
+                {//数字
                     result.Push(postfix[i]);
                 }
                 else if (postfix[i] == "π")
@@ -97,8 +103,16 @@ namespace SimpleCalculator
                 {
                     result.Push(E());
                 }
-                else if (special_operators.Contains(postfix[i]))
+                else if (postfix[i] == "-π")
                 {
+                    result.Push("-" + Pi());
+                }
+                else if (postfix[i] == "-e")
+                {
+                    result.Push("-" + E());
+                }
+                else if (special_operators.Contains(postfix[i]))
+                {//特殊运算，直接运算前一个数字
                     string num = result.Pop();
                     if (postfix[i] == "fact")
                         result.Push(Fact(num));
@@ -122,7 +136,7 @@ namespace SimpleCalculator
                         result.Push(Arctan(num));
                 }
                 else
-                {
+                {//普通运算，直接操作前两个数
                     string num2 = result.Pop();
                     string num1 = result.Pop();
                     if (postfix[i] == "+")
@@ -144,7 +158,7 @@ namespace SimpleCalculator
 
         public bool IsNumeric(string value)
         {
-            return Regex.IsMatch(value, "^([0-9]+|[0-9]+(.[0-9]{0,}))$");
+            return Regex.IsMatch(value, @"^(\-|\+)?\d+(\.\d+)?$");
         }
         public string Pi()
         {
@@ -169,7 +183,7 @@ namespace SimpleCalculator
         public string Div(string num1, string num2)
         {
             if (double.Parse(num2) == 0.0)
-                throw new DivideByZeroException();
+                throw new Exception("被除数不能为0！");
             return (double.Parse(num1) / double.Parse(num2)).ToString();
         }
         public string Mod(string num1, string num2)
@@ -178,25 +192,36 @@ namespace SimpleCalculator
         }
         public string Pow(string num1, string num2)
         {
-            return Math.Pow(double.Parse(num1), double.Parse(num2)).ToString();
+            double pow = Math.Pow(double.Parse(num1), double.Parse(num2));
+            return pow.ToString();
         }
         public string Sqrt(string num)
         {
+            if (int.Parse(num) < 0)
+                throw new Exception("二次根号底数不能为负！");
             return Pow(num, "0.5");
         }
         public string Fact(string num)
         {
             int n = int.Parse(num);
+            if (n < 0)
+                throw new Exception("阶乘底数不能为负！");
+            else if(n>12)
+                throw new Exception("阶乘底数不能大于12！");
             for (int i = 1; i < int.Parse(num); i++)
                 n *= i;
             return n.ToString();
         }
         public string Log(string num)
         {
+            if (double.Parse(num) <= 0.0)
+                throw new Exception("对数底数不能为非正数！");
             return Math.Log10(double.Parse(num)).ToString();
         }
         public string Ln(string num)
         {
+            if (double.Parse(num) <= 0.0)
+                throw new Exception("对数底数不能为非正数！");
             return Math.Log(double.Parse(num)).ToString();
         }
         public string Sin(string num)
@@ -209,14 +234,20 @@ namespace SimpleCalculator
         }
         public string Tan(string num)
         {
+            if (double.Parse(num) % (Math.PI / 2) <= 1e-10)
+                throw new Exception("正弦函数参数不能为π/2的倍数！");
             return Math.Tan(double.Parse(num)).ToString();
         }
         public string Arcsin(string num)
         {
+            if (double.Parse(num) <= 1|| double.Parse(num) >1)
+                throw new Exception("反正弦函数参数绝对值不能大于1！");
             return Math.Asin(double.Parse(num)).ToString();
         }
         public string Arccos(string num)
         {
+            if (double.Parse(num) <= 1 || double.Parse(num) > 1)
+                throw new Exception("反余弦函数参数绝对值不能大于1！");
             return Math.Acos(double.Parse(num)).ToString();
         }
         public string Arctan(string num)

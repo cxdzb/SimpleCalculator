@@ -11,9 +11,10 @@
         <Viewbox Stretch="Fill">
             <Canvas Width="328.8" Height="485.6">
                 <Grid HorizontalAlignment="Left" Height="174" VerticalAlignment="Top" Width="309" Canvas.Left="10" Canvas.Top="10">
-                    <Button x:Name="history" Content="历史" HorizontalAlignment="Left" Margin="268,0,0,0" VerticalAlignment="Top" Width="41" Height="27"/>
                     <TextBox x:Name="input" Text="" HorizontalAlignment="Left" Background="#F4DFE5E5" Height="53" Margin="0,121,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="309" TextAlignment="Right" FontSize="26"/>
                     <TextBox x:Name="formula" Text="" HorizontalAlignment="Left" Background="#F4DFE5E5" Height="84" Margin="0,32,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="309" TextAlignment="Right" FontSize="18"/>
+                    <ComboBox x:Name="record" HorizontalAlignment="Left" VerticalAlignment="Top" Width="264" Height="27" DropDownOpened="Record_DropDown" Margin="45,0,0,0"/>
+                    <Label x:Name="label" Content="历史" HorizontalAlignment="Left" VerticalAlignment="Top" Height="27" Width="40" FontSize="15" FontWeight="Bold"/>
                 </Grid>
                 <Grid HorizontalAlignment="Left" Height="297" VerticalAlignment="Top" Width="309" Canvas.Left="10" Canvas.Top="189">
                     <Button x:Name="button_sin" Content="sin" HorizontalAlignment="Left" Margin="0,42,0,0" VerticalAlignment="Top" Width="29" Height="40" Click="Button_sin_Click"/>
