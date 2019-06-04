@@ -33,7 +33,7 @@ namespace SimpleCalculator
         public List<string> String_To_List(string input)
         {
             List<string> infix = new List<string>();
-            string pattern = @"[0-9]+|[0-9]+(.[0-9]{0,})|[()]|[+-]|[×÷]|[a-z⁻¹]+|\^|π";
+            string pattern = @"\d+(\.\d+)?|[()]|[+-]|[×÷%]|[a-z⁻¹]+|\^|π";
             foreach (Match match in Regex.Matches(input, pattern))
                 infix.Add(match.Value);
             for(int i=1;i<infix.Count-1;i++)    //找出负数
@@ -178,6 +178,8 @@ namespace SimpleCalculator
         }
         public string Mul(string num1, string num2)
         {
+            Console.WriteLine(num1);
+            Console.WriteLine(num2);
             return (double.Parse(num1) * double.Parse(num2)).ToString();
         }
         public string Div(string num1, string num2)
@@ -188,7 +190,7 @@ namespace SimpleCalculator
         }
         public string Mod(string num1, string num2)
         {
-            return (int.Parse(num1) % int.Parse(num2)).ToString();
+            return (double.Parse(num1) % double.Parse(num2)).ToString();
         }
         public string Pow(string num1, string num2)
         {

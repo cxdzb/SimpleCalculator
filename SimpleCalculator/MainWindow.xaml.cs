@@ -242,16 +242,16 @@ namespace SimpleCalculator
             if(!(infix.Formula=="" && infix.Input==""))
                 try
                 {
-                    if (infix.Input == ""|| Regex.Matches(infix.Formula.Substring(infix.Formula.Length-1), @"(\d|e|\)|π)").Count==1)
+                    if (infix.Input == ""|| (infix.Formula.Length>0&&Regex.Matches(infix.Formula.Substring(infix.Formula.Length-1), @"(\d|e|\)|π)").Count==1))
                         infix.Input = calculation.Get_Result(infix.Formula);
                     else
                     {
                         infix.Formula += infix.Input;
                         infix.Input = calculation.Get_Result(infix.Formula);
                     }
-                    if (1 - (double.Parse(infix.Input) % 1) <= 1e-10)   //控制精度
+                    if (Math.Abs(1 - (double.Parse(infix.Input) % 1)) <= 1e-15)   //控制精度
                         infix.Input = ((int)(double.Parse(infix.Input) + 1)).ToString();
-                    else if(double.Parse(infix.Input) % 1 <= 1e-10)
+                    else if(Math.Abs(double.Parse(infix.Input) % 1) <= 1e-15)
                         infix.Input = ((int)double.Parse(infix.Input)).ToString();
 
                     if(!Record.ContainsKey(infix.Formula))  //添加到记录
