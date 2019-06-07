@@ -151,8 +151,11 @@ namespace SimpleCalculator
                         result.Push(Mul(num1, num2, flag));
                     else if (postfix[i] == "÷")
                         result.Push(Div(num1, num2, flag));
-                    else if (postfix[i] == "^")
+                    else if (postfix[i] == "^") {
+                        if(!num1.Contains(".")&& !num2.Contains("."))
+                            flag = 1;
                         result.Push(Pow(num1, num2, flag));
+                    }
                     else if (postfix[i] == "%")
                         result.Push(Mod(num1, num2, flag));
                 }
