@@ -248,7 +248,7 @@ namespace SimpleCalculator
         public string Tan(string num)
         {
             if (double.Parse(num) % (Math.PI)>= 1e-10 && double.Parse(num) % (Math.PI / 2) <= 1e-10)
-                throw new Exception("正弦函数参数不能为π/2的倍数！");
+                throw new Exception("正弦函数参数不能为π/2+kπ！");
             return Math.Tan(double.Parse(num)).ToString();
         }
         public string Arcsin(string num)
