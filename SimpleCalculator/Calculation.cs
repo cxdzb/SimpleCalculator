@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Numerics;
 
 namespace SimpleCalculator
 {
@@ -139,18 +140,21 @@ namespace SimpleCalculator
                 {//普通运算，直接操作前两个数
                     string num2 = result.Pop();
                     string num1 = result.Pop();
+                    int flag = 0;
+                    if ((!num1.Contains(".") && num1.Length >= 100) || (!num2.Contains(".") && num2.Length >= 100))
+                        flag = 1;
                     if (postfix[i] == "+")
-                        result.Push(Add(num1, num2));
+                        result.Push(Add(num1, num2, flag));
                     else if (postfix[i] == "-")
-                        result.Push(Sub(num1, num2));
+                        result.Push(Sub(num1, num2, flag));
                     else if (postfix[i] == "×")
-                        result.Push(Mul(num1, num2));
+                        result.Push(Mul(num1, num2, flag));
                     else if (postfix[i] == "÷")
-                        result.Push(Div(num1, num2));
+                        result.Push(Div(num1, num2, flag));
                     else if (postfix[i] == "^")
-                        result.Push(Pow(num1, num2));
+                        result.Push(Pow(num1, num2, flag));
                     else if (postfix[i] == "%")
-                        result.Push(Mod(num1, num2));
+                        result.Push(Mod(num1, num2, flag));
                 }
             }
             return result.Pop();
@@ -168,48 +172,55 @@ namespace SimpleCalculator
         {
             return Math.E.ToString();
         }
-        public string Add(string num1, string num2)
+        public string Add(string num1, string num2,int flag=0)
         {
+            if(flag==1)
+                return (BigInteger.Parse(num1) + BigInteger.Parse(num2)).ToString();
             return (double.Parse(num1) + double.Parse(num2)).ToString();
         }
-        public string Sub(string num1, string num2)
+        public string Sub(string num1, string num2, int flag = 0)
         {
+            if (flag == 1)
+                return (BigInteger.Parse(num1) - BigInteger.Parse(num2)).ToString();
             return (double.Parse(num1) - double.Parse(num2)).ToString();
         }
-        public string Mul(string num1, string num2)
+        public string Mul(string num1, string num2, int flag = 0)
         {
-            Console.WriteLine(num1);
-            Console.WriteLine(num2);
+            if (flag == 1)
+                return (BigInteger.Parse(num1) * BigInteger.Parse(num2)).ToString();
             return (double.Parse(num1) * double.Parse(num2)).ToString();
         }
-        public string Div(string num1, string num2)
+        public string Div(string num1, string num2, int flag = 0)
         {
             if (double.Parse(num2) == 0.0)
                 throw new Exception("被除数不能为0！");
+            if (flag == 1)
+                return (BigInteger.Parse(num1) / BigInteger.Parse(num2)).ToString();
             return (double.Parse(num1) / double.Parse(num2)).ToString();
         }
-        public string Mod(string num1, string num2)
+        public string Mod(string num1, string num2, int flag = 0)
         {
+            if (flag == 1)
+                return (BigInteger.Parse(num1) % BigInteger.Parse(num2)).ToString();
             return (double.Parse(num1) % double.Parse(num2)).ToString();
         }
-        public string Pow(string num1, string num2)
+        public string Pow(string num1, string num2, int flag = 0)
         {
-            double pow = Math.Pow(double.Parse(num1), double.Parse(num2));
-            return pow.ToString();
+            if (flag == 1)
+                return BigInteger.Pow(BigInteger.Parse(num1), int.Parse(num2)).ToString();
+            return Math.Pow(double.Parse(num1), double.Parse(num2)).ToString();
         }
-        public string Sqrt(string num)
+        public string Sqrt(string num, int flag = 0)
         {
-            if (int.Parse(num) < 0)
+            if (double.Parse(num) < 0)
                 throw new Exception("二次根号底数不能为负！");
-            return Pow(num, "0.5");
+            return Pow(num, "0.5",flag);
         }
         public string Fact(string num)
         {
-            int n = int.Parse(num);
+            BigInteger n = BigInteger.Parse(num);
             if (n < 0)
                 throw new Exception("阶乘底数不能为负！");
-            else if(n>12)
-                throw new Exception("阶乘底数不能大于12！");
             for (int i = 1; i < int.Parse(num); i++)
                 n *= i;
             return n.ToString();
@@ -236,7 +247,7 @@ namespace SimpleCalculator
         }
         public string Tan(string num)
         {
-            if (double.Parse(num) % (Math.PI / 2) <= 1e-10)
+            if (double.Parse(num) % (Math.PI)>= 1e-10 && double.Parse(num) % (Math.PI / 2) <= 1e-10)
                 throw new Exception("正弦函数参数不能为π/2的倍数！");
             return Math.Tan(double.Parse(num)).ToString();
         }

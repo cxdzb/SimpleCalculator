@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -249,11 +250,13 @@ namespace SimpleCalculator
                         infix.Formula += infix.Input;
                         infix.Input = calculation.Get_Result(infix.Formula);
                     }
-                    if (Math.Abs(1 - (double.Parse(infix.Input) % 1)) <= 1e-15)   //控制精度
-                        infix.Input = ((int)(double.Parse(infix.Input) + 1)).ToString();
-                    else if(Math.Abs(double.Parse(infix.Input) % 1) <= 1e-15)
-                        infix.Input = ((int)double.Parse(infix.Input)).ToString();
-
+                    if (infix.Input.Contains("."))   //控制浮点数精度
+                    {
+                        if (Math.Abs(1 - (double.Parse(infix.Input) % 1)) <= 1e-10)
+                            infix.Input = ((BigInteger)(double.Parse(infix.Input) + 1)).ToString();
+                        else if(Math.Abs(double.Parse(infix.Input) % 1) <= 1e-10)
+                            infix.Input = ((BigInteger)double.Parse(infix.Input)).ToString();
+                    }
                     if(!Record.ContainsKey(infix.Formula))  //添加到记录
                         Record.Add(infix.Formula, double.Parse(infix.Input));
                 }
