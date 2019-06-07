@@ -250,6 +250,7 @@ namespace SimpleCalculator
                         infix.Formula += infix.Input;
                         infix.Input = calculation.Get_Result(infix.Formula);
                     }
+                    Console.WriteLine(infix.Input);
                     if (infix.Input.Contains("."))   //控制浮点数精度
                     {
                         if (Math.Abs(1 - (double.Parse(infix.Input) % 1)) <= 1e-10)

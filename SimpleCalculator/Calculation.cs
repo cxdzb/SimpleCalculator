@@ -141,7 +141,9 @@ namespace SimpleCalculator
                     string num2 = result.Pop();
                     string num1 = result.Pop();
                     int flag = 0;
-                    if ((!num1.Contains(".") && num1.Length >= 100) || (!num2.Contains(".") && num2.Length >= 100))
+                    if ((!num1.Contains(".") && num1.Length >= 20) || (!num2.Contains(".") && num2.Length >= 20))
+                        flag = 1;
+                    if (!num1.Contains(".") && !num2.Contains("."))
                         flag = 1;
                     if (postfix[i] == "+")
                         result.Push(Add(num1, num2, flag));
@@ -151,11 +153,8 @@ namespace SimpleCalculator
                         result.Push(Mul(num1, num2, flag));
                     else if (postfix[i] == "÷")
                         result.Push(Div(num1, num2, flag));
-                    else if (postfix[i] == "^") {
-                        if(!num1.Contains(".")&& !num2.Contains("."))
-                            flag = 1;
+                    else if (postfix[i] == "^")
                         result.Push(Pow(num1, num2, flag));
-                    }
                     else if (postfix[i] == "%")
                         result.Push(Mod(num1, num2, flag));
                 }
